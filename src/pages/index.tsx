@@ -1,3 +1,4 @@
+import Title from "@/components/Title";
 import Head from "next/head";
 import React from "react";
 
@@ -7,7 +8,9 @@ const Home = () => {
       <Head>
         <title>Axios | Home</title>
       </Head>
-      <div>Home</div>
+      <div>
+        <Title>Home</Title>
+      </div>
     </>
   );
 };

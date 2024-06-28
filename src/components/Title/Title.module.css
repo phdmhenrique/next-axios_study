@@ -1,0 +1,9 @@
+.title {
+  align-self: center;
+  text-align: center;
+  max-width: max-content;
+  margin: 2rem 0;
+  text-transform: capitalize;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--pink);
+}

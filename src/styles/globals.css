@@ -19,15 +19,22 @@ body {
     color: var(--white);
 }
 
+html {
+    font-size: 62.5%;
+}
+
 ul,
 li,
 a {
+    width: max-content;
     list-style: none;
     text-decoration: none;
     color: var(--white);
 }
 
-input, button, textarea {
+input,
+button,
+textarea {
     outline: none;
     border: none;
 }
@@ -42,11 +49,4 @@ p {
     padding: 0.5rem 1rem;
     border-radius: 1rem;
     opacity: 1;
-}
-
-.title {
-    margin: 2rem 0;
-    text-transform: uppercase;
-    padding-bottom: 1rem;
-    border-bottom: 2px solid var(--pink);
 }

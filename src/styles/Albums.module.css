@@ -1,0 +1,41 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 0 1rem 2rem;
+}
+
+.container_album {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(auto, 350px));
+  justify-content: center;
+  gap: 2rem;
+}
+
+.album {
+  max-width: 350px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-direction: column;
+  background-color: var(--secondary);
+  padding: 1rem;
+  position: relative;
+}
+
+.album p {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background-color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: -15px;
+  font-weight: bold;
+  font-size: 15px;
+}
