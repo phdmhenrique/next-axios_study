@@ -1,9 +1,13 @@
 import Head from "next/head";
-import styles from "../../styles/Home.module.css";
+import styles from "./Posts.module.css";
 import api from "@/api/axios";
 import { useEffect, useState } from "react";
 import { PostsProps } from "@/types/posts";
 import Link from "next/link";
+import MainContentContainer from "@/components/MainContentContainer";
+import TitlePage from "@/components/TitlePage";
+import GridContentContainer from "@/components/GridContentContainer";
+import Button from "@/components/Button";
 
 export default function Posts() {
   const [posts, setPosts] = useState<PostsProps[]>([]);
@@ -30,26 +34,26 @@ export default function Posts() {
         <meta name="description" content="Projeto de treino com axios" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <main className={styles.home}>
-        <h1 className="title">Últimos Posts</h1>
-        <div className={styles.container_card}>
+      <MainContentContainer>
+        <TitlePage>Posts</TitlePage>
+        <GridContentContainer>
           {posts.length === 0 ? (
             <p>Carregando...</p>
           ) : (
             posts.map((post) => (
-              <div key={post.id} className={styles.card}>
-                <div>
+              <div key={post.id} className={styles.post_container}>
+                <div className={styles.post_title}>
                   <h2>{post.title}</h2>
                   <p>{post.body}</p>
                 </div>
-                <Link href={`/posts/${post.id}`} className={styles.details}>
-                  Ver Detalhes
+                <Link href={`/posts/${post.id}`}>
+                  <Button>Ver Detalhes</Button>
                 </Link>
               </div>
             ))
           )}
-        </div>
-      </main>
+        </GridContentContainer>
+      </MainContentContainer>
     </>
   );
 }

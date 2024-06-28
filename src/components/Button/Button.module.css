@@ -1,4 +1,5 @@
 .button {
+  width: 100% !important;
   padding: 0.5rem;
   border-radius: 3px;
   background-color: var(--primary);

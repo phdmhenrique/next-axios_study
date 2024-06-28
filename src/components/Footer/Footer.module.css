@@ -3,6 +3,7 @@
   align-items: center;
   padding: 1rem;
   justify-content: center;
+  border-top: 3px solid var(--black);
   background-color: var(--secondary);
   position: fixed;
   bottom: 0;

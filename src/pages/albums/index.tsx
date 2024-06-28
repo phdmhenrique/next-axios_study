@@ -6,6 +6,8 @@ import styles from "@/styles/Albums.module.css";
 import Button from "@/components/Button";
 import Link from "next/link";
 import Title from "@/components/TitlePage";
+import MainContentContainer from "@/components/MainContentContainer";
+import GridContentContainer from "@/components/GridContentContainer";
 
 const Albums = () => {
   const [albums, setAlbums] = useState<AlbumsProps[]>([]);
@@ -28,9 +30,9 @@ const Albums = () => {
       <Head>
         <title>Axios | Albums</title>
       </Head>
-      <div className={styles.container}>
+      <MainContentContainer>
         <Title>Albums</Title>
-        <div className={styles.container_album}>
+        <GridContentContainer>
           {albums.map((album) => (
             <div key={album.id} className={styles.album}>
               <h1>{album.title}</h1>
@@ -40,8 +42,8 @@ const Albums = () => {
               </Link>
             </div>
           ))}
-        </div>
-      </div>
+        </GridContentContainer>
+      </MainContentContainer>
     </>
   );
 };

@@ -4,6 +4,7 @@ import api from "@/api/axios";
 import { PostsProps } from "@/types/posts";
 import Head from "next/head";
 import styles from "./Post.module.css";
+import MainContentContainer from "@/components/MainContentContainer";
 
 export default function PostDetail() {
   // 1. Inicializa o roteador do Next.js para acessar parâmetros da URL
@@ -42,10 +43,10 @@ export default function PostDetail() {
         <title>{post.title} | Detalhes</title>
         <meta name="description" content={`Detalhes do post ${post.title}`} />
       </Head>
-      <main className={styles.postDetail}>
+      <MainContentContainer>
         <h1>{post.title}</h1>
         <p>{post.body}</p>
-      </main>
+      </MainContentContainer>
     </>
   );
 }

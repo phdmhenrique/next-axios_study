@@ -1,3 +1,4 @@
+import MainContentContainer from "@/components/MainContentContainer";
 import Title from "@/components/TitlePage";
 import Head from "next/head";
 import React from "react";
@@ -8,9 +9,9 @@ const Home = () => {
       <Head>
         <title>Axios | Home</title>
       </Head>
-      <div>
+      <MainContentContainer>
         <Title>Home</Title>
-      </div>
+      </MainContentContainer>
     </>
   );
 };

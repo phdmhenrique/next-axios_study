@@ -1,0 +1,9 @@
+.grid_content {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(auto, 350px));
+  grid-auto-rows: minmax(100px, auto);
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 3.2rem;
+}

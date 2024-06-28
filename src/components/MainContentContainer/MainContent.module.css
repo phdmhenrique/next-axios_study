@@ -1,5 +1,8 @@
 .main_content {
+  max-width: 111rem;
   width: 100%;
+  padding: 0 1rem;
+  margin: 0 auto;
   background-color: var(--black);
   color: var(--white);
   display: flex;

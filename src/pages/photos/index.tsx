@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import styles from "../../styles/Home.module.css";
 import Link from "next/link";
 import { PhotosProps } from "@/types/photos";
+import MainContentContainer from "@/components/MainContentContainer";
+import TitlePage from "@/components/TitlePage";
 
 const Photos = () => {
   const [photos, setPhotos] = useState<PhotosProps[]>([]);
@@ -46,30 +48,28 @@ const Photos = () => {
         <meta name="description" content="Listagem de Fotos" />
       </Head>
 
-      <main>
-        <div className={styles.home}>
-          <h1 className="title">Fotos</h1>
-          {photos.length === 0 ? (
-            <p>Carregando...</p>
-          ) : (
-            <div className={styles.container_card}>
-              {photos.map((photo) => (
-                <div className={styles.card} key={photo.id}>
-                  <h2>{photo.title}</h2>
-                  <Image
-                    width={150}
-                    height={150}
-                    src={photo.thumbnailUrl}
-                    alt={`Imagem de ${photo.title}`}
-                  />
-                  <Link href={`/photos/${photo.id}`} className={styles.details}>
-                    Ver Detalhes
-                  </Link>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+      <MainContentContainer>
+        <TitlePage>Fotos</TitlePage>
+        {photos.length === 0 ? (
+          <p>Carregando...</p>
+        ) : (
+          <div className={styles.container_card}>
+            {photos.map((photo) => (
+              <div className={styles.card} key={photo.id}>
+                <h2>{photo.title}</h2>
+                <Image
+                  width={150}
+                  height={150}
+                  src={photo.thumbnailUrl}
+                  alt={`Imagem de ${photo.title}`}
+                />
+                <Link href={`/photos/${photo.id}`} className={styles.details}>
+                  Ver Detalhes
+                </Link>
+              </div>
+            ))}
+          </div>
+        )}
 
         <div className={styles.pagination}>
           <button onClick={handlePreviousPage} disabled={page === 1}>
@@ -77,7 +77,7 @@ const Photos = () => {
           </button>
           <button onClick={handleNextPage}>Próxima</button>
         </div>
-      </main>
+      </MainContentContainer>
     </>
   );
 };

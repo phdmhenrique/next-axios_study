@@ -3,6 +3,8 @@ import styles from "./NewPost.module.css";
 import api from "@/api/axios";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import MainContentContainer from "@/components/MainContentContainer";
+import TitlePage from "@/components/TitlePage";
 
 const NewPost = () => {
   const router = useRouter();
@@ -11,15 +13,15 @@ const NewPost = () => {
   const [body, setBody] = useState<string>();
 
   const createPost = async (e: React.FormEvent) => {
-    e.preventDefault();    
+    e.preventDefault();
 
-    const post = { title, body, userId: 1};
+    const post = { title, body, userId: 1 };
 
-    await api.post('/posts', {
+    await api.post("/posts", {
       body: post,
     });
 
-    router.push('/');    
+    router.push("/");
   };
 
   return (
@@ -28,13 +30,17 @@ const NewPost = () => {
         <title>Axios | Novos Posts</title>
       </Head>
 
-      <div className={styles.new_post}>
-        <h1 className="title">Inserir Nova Postagem</h1>
+      <MainContentContainer>
+        <TitlePage>Nova Postagem</TitlePage>
         <form onSubmit={createPost} className={styles.form}>
           <div className={styles.form_control}>
             <label htmlFor="title">Título:</label>
-            <input onChange={(e) => setTitle(e.target.value) } 
-            type="text" name="title" placeholder="Digite o título" />
+            <input
+              onChange={(e) => setTitle(e.target.value)}
+              type="text"
+              name="title"
+              placeholder="Digite o título"
+            />
           </div>
           <div className={styles.form_control}>
             <label htmlFor="body">Conteúdo:</label>
@@ -47,7 +53,7 @@ const NewPost = () => {
 
           <input type="submit" value="Criar Post" className="btn" />
         </form>
-      </div>
+      </MainContentContainer>
     </>
   );
 };
