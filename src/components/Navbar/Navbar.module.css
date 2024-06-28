@@ -1,0 +1,36 @@
+.navbar {
+    padding: 1rem 2rem;
+    background-color: var(--secondary);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    justify-content: space-between;
+}
+
+.navbar a {
+    color: var(--white);
+}
+
+.link_logo {
+    font-size: 3rem;
+}
+
+.links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.links li {
+    font-size: 1rem;
+    transition: .1s;
+    padding: 0.5rem;
+    opacity: 0.75;
+}
+
+.links li:hover {
+    opacity: 1;
+}

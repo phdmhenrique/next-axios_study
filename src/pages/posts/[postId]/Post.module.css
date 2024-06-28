@@ -1,0 +1,15 @@
+.postDetail {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .postDetail h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .postDetail p {
+    font-size: 1.2rem;
+  }
+  
