@@ -5,7 +5,7 @@ import api from "@/api/axios";
 import styles from "@/styles/Albums.module.css";
 import Button from "@/components/Button";
 import Link from "next/link";
-import Title from "@/components/Title";
+import Title from "@/components/TitlePage";
 
 const Albums = () => {
   const [albums, setAlbums] = useState<AlbumsProps[]>([]);
