@@ -4,24 +4,40 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import styles from "../../styles/Home.module.css";
 import Link from "next/link";
-import { PhotosProps } from '@/types/photos';
-
+import { PhotosProps } from "@/types/photos";
 
 const Photos = () => {
   const [photos, setPhotos] = useState<PhotosProps[]>([]);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
 
-  const getPhotos = async () => {
+  const getPhotos = async (pageNumber: number) => {
+    setLoading(true);
     try {
-      const response = await api.get<PhotosProps[]>("/photos?_limit=30");
+      const response = await api.get<PhotosProps[]>(
+        `/photos?_page=${pageNumber}&_limit=20`
+      );
       setPhotos(response.data);
     } catch (error) {
       console.error("Erro ao carregar as fotos", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    getPhotos();
-  }, []);
+    getPhotos(page);
+  }, [page]);
+
+  // função de próximo
+  const handleNextPage = () => {
+    setPage((prevPage) => prevPage + 1);
+  };
+
+  // função de anterior
+  const handlePreviousPage = () => {
+    setPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
 
   return (
     <>
@@ -46,11 +62,20 @@ const Photos = () => {
                     src={photo.thumbnailUrl}
                     alt={`Imagem de ${photo.title}`}
                   />
-                  <Link href={`/photos/${photo.id}`} className={styles.details}>Ver Detalhes</Link>
+                  <Link href={`/photos/${photo.id}`} className={styles.details}>
+                    Ver Detalhes
+                  </Link>
                 </div>
               ))}
             </div>
           )}
+        </div>
+
+        <div className={styles.pagination}>
+          <button onClick={handlePreviousPage} disabled={page === 1}>
+            Anterior
+          </button>
+          <button onClick={handleNextPage}>Próxima</button>
         </div>
       </main>
     </>
