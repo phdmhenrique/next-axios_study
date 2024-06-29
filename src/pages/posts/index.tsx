@@ -46,7 +46,7 @@ export default function Posts() {
                   <h2>{post.title}</h2>
                   <p>{post.body}</p>
                 </div>
-                <Link href={`/posts/${post.id}`}>
+                <Link href={`/posts/${post.id}`} className={styles.post_link}>
                   <Button>Ver Detalhes</Button>
                 </Link>
               </div>

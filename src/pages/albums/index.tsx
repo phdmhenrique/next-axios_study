@@ -31,7 +31,7 @@ const Albums = () => {
         <title>Axios | Albums</title>
       </Head>
       <MainContentContainer>
-        <Title>Albums</Title>
+        <Title>Álbums</Title>
         <GridContentContainer>
           {albums.map((album) => (
             <div key={album.id} className={styles.album}>

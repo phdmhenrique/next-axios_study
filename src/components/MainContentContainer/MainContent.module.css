@@ -2,7 +2,7 @@
   max-width: 111rem;
   width: 100%;
   padding: 0 1rem;
-  margin: 0 auto;
+  margin: 0 auto 3.2rem;
   background-color: var(--black);
   color: var(--white);
   display: flex;

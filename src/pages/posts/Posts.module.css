@@ -1,21 +1,23 @@
 .post_container {
   width: 100%;
   max-width: 350px;
-  min-height: 300px;
+  min-height: 240px;
   height: 100%;
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: space-between;
+  gap: 1rem;
   background-color: var(--secondary);
   padding: 2rem;
-  border-radius: 3px;
+  border-radius: 5px;
 }
 
 .post_title {
   display: flex;
   flex-direction: column;
-
+  justify-content: space-between;
+  gap: 1rem;
 }
 
 .post_title h2 {
@@ -23,8 +25,8 @@
   font-size: 2rem;
   font-weight: bold;
   padding-bottom: 1rem;
-  border-bottom: 2px solid var(--black);
-  flex: 1;
+  border-bottom: 2px solid var(--primary);
+  flex: 1 0 84px;
 }
 
 .post_container img {
@@ -34,6 +36,10 @@
 
 .post_container p {
   font-size: 14px;
-  margin-top: 1rem;
   color: var(--gray);
+}
+
+.post_link {
+  width: 100%;
+  margin-top: 2rem;
 }

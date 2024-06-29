@@ -1,6 +1,6 @@
 .postDetail {
-  padding: 20px;
-  max-width: 800px;
+  padding: 2rem;
+  max-width: 80rem;
   margin: 0 auto;
 }
 
@@ -9,6 +9,9 @@
   margin-bottom: 1rem;
 }
 
-.postDetail p {
-  font-size: 1.2rem;
+.text {
+  max-width: 30rem;
+  width: 100%;
+  font-size: 1.6rem;
+  text-align: justify;
 }

@@ -5,6 +5,7 @@ import { PostsProps } from "@/types/posts";
 import Head from "next/head";
 import styles from "./Post.module.css";
 import MainContentContainer from "@/components/MainContentContainer";
+import TitlePage from "@/components/TitlePage";
 
 export default function PostDetail() {
   // 1. Inicializa o roteador do Next.js para acessar parâmetros da URL
@@ -44,8 +45,8 @@ export default function PostDetail() {
         <meta name="description" content={`Detalhes do post ${post.title}`} />
       </Head>
       <MainContentContainer>
-        <h1>{post.title}</h1>
-        <p>{post.body}</p>
+        <TitlePage>{post.title}</TitlePage>
+        <p className={styles.text}>{post.body}</p>
       </MainContentContainer>
     </>
   );
