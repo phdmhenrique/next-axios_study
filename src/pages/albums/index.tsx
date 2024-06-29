@@ -1,7 +1,9 @@
-// Imports
+// pages/albums/index.tsx
+
 import Head from "next/head";
-import { useEffect, useState } from "react";
 import Link from "next/link";
+import { GetStaticProps } from "next";
+import { useEffect, useState } from "react";
 
 // Styles
 import styles from "./Albums.module.css";
@@ -16,21 +18,16 @@ import GridContentContainer from "@/components/GridContentContainer";
 import api from "@/api/axios";
 import { AlbumsProps } from "@/types/albums";
 
-const Albums = () => {
-  const [albums, setAlbums] = useState<AlbumsProps[]>([]);
+interface AlbumsPageProps {
+  albumsData: AlbumsProps[];
+}
 
-  const getAlbums = async () => {
-    try {
-      const response = await api.get<AlbumsProps[]>(`/albums`);
-      setAlbums(response.data);
-    } catch (error) {
-      console.error("Erro ao carregar os albums", error);
-    }
-  };
+const Albums = ({ albumsData }: AlbumsPageProps) => {
+  const [albums, setAlbums] = useState<AlbumsProps[]>(albumsData);
 
   useEffect(() => {
-    getAlbums();
-  }, [albums]);
+    setAlbums(albumsData);
+  }, [albumsData]);
 
   return (
     <>
@@ -44,7 +41,7 @@ const Albums = () => {
             <div key={album.id} className={styles.album}>
               <h1>{album.title}</h1>
               <p>{album.id}</p>
-              <Link href={`/albums/${album.id}`}>
+              <Link href={`/album/${album.id}`}>
                 <Button>Ver Detalhes</Button>
               </Link>
             </div>
@@ -53,6 +50,27 @@ const Albums = () => {
       </MainContentContainer>
     </>
   );
+};
+
+export const getStaticProps: GetStaticProps = async () => {
+  try {
+    const response = await api.get<AlbumsProps[]>("/albums");
+    const albumsData = response.data.slice(0, 15); // Limita a 15 elementos para exemplo
+
+    return {
+      props: {
+        albumsData,
+      },
+      revalidate: 60 * 5, // Revalida a cada 5 minutos (300 segundos)
+    };
+  } catch (error) {
+    console.error("Erro ao buscar dados:", error);
+    return {
+      props: {
+        albumsData: [],
+      },
+    };
+  }
 };
 
 export default Albums;
