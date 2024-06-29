@@ -39,3 +39,30 @@
   font-weight: bold;
   font-size: 15px;
 }
+
+.photoCard {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+}
+
+.photoCard img {
+  border-radius: 8px;
+}
+
+.loadMoreButton {
+  margin: 20px auto;
+  display: block;
+  padding: 10px 20px;
+  background-color: #0070f3;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.loadMoreButton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
