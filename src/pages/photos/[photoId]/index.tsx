@@ -1,9 +1,19 @@
-import api from "@/api/axios";
-import { PhotosProps } from "@/types/photos";
+// Import
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+
+// Styles
+import styles from "../Photos.module.css";
+
+// Utils
+import api from "@/api/axios";
+import { PhotosProps } from "@/types/photos";
+
+// Components
+import MainContentContainer from "@/components/MainContentContainer";
+import TitlePage from "@/components/TitlePage";
 
 const PhotoDetail = () => {
   const router = useRouter();
@@ -34,10 +44,16 @@ const PhotoDetail = () => {
       <Head>
         <title>Axios | {photo.title}</title>
       </Head>
-      <main>
-        <Image width={600} height={600} src={photo.url} alt={photo.title} />
-        <h1>{photo.title}</h1>
-      </main>
+      <MainContentContainer>
+        <TitlePage>{photo.title}</TitlePage>
+        <Image
+          width={600}
+          height={600}
+          src={photo.url}
+          alt={photo.title}
+          className={styles.photo_img}
+        />
+      </MainContentContainer>
     </>
   );
 };

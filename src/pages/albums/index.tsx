@@ -1,13 +1,20 @@
+// Imports
 import Head from "next/head";
-import { AlbumsProps } from "@/types/albums";
 import { useEffect, useState } from "react";
-import api from "@/api/axios";
-import styles from "@/styles/Albums.module.css";
-import Button from "@/components/Button";
 import Link from "next/link";
+
+// Styles
+import styles from "./Albums.module.css";
+
+// Components
+import Button from "@/components/Button";
 import Title from "@/components/TitlePage";
 import MainContentContainer from "@/components/MainContentContainer";
 import GridContentContainer from "@/components/GridContentContainer";
+
+// Utils
+import api from "@/api/axios";
+import { AlbumsProps } from "@/types/albums";
 
 const Albums = () => {
   const [albums, setAlbums] = useState<AlbumsProps[]>([]);

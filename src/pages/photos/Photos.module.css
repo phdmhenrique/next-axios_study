@@ -1,0 +1,52 @@
+.photo {
+  background-color: var(--secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 2rem;
+  gap: 1rem;
+  border-radius: 0.5rem;
+}
+
+.photo_title {
+  font-size: 1.6rem;
+  padding-bottom: 2rem;
+  border-bottom: 0.3rem solid var(--primary);
+  flex: 1;
+}
+
+.photo_link {
+  width: 100%;
+}
+
+.photo_small_img {
+  align-self: center;
+}
+
+.photo_img {
+  max-width: 60rem;
+  max-height: 60rem;
+  width: 100%;
+  height: 100%;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.pagination button {
+  padding: 10px 20px;
+  margin: 0 5px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #f0f0f0;
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

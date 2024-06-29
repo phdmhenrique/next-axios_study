@@ -2,6 +2,7 @@
   width: 100%;
   padding: 0.8em;
   border: 2px solid var(--primary);
+  border-radius: 0.5rem;
   position: relative;
   overflow: hidden;
   background-color: transparent;

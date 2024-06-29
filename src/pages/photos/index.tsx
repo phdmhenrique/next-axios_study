@@ -1,12 +1,21 @@
+// Imports
 import api from "@/api/axios";
 import Head from "next/head";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import styles from "../../styles/Home.module.css";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+
+// Props
 import { PhotosProps } from "@/types/photos";
+
+// Styles
+import styles from "./Photos.module.css";
+
+// Components
 import MainContentContainer from "@/components/MainContentContainer";
+import GridContentContainer from "@/components/GridContentContainer";
 import TitlePage from "@/components/TitlePage";
+import Button from "@/components/Button";
 
 const Photos = () => {
   const [photos, setPhotos] = useState<PhotosProps[]>([]);
@@ -50,26 +59,32 @@ const Photos = () => {
 
       <MainContentContainer>
         <TitlePage>Fotos</TitlePage>
-        {photos.length === 0 ? (
-          <p>Carregando...</p>
-        ) : (
-          <div className={styles.container_card}>
-            {photos.map((photo) => (
-              <div className={styles.card} key={photo.id}>
-                <h2>{photo.title}</h2>
-                <Image
-                  width={150}
-                  height={150}
-                  src={photo.thumbnailUrl}
-                  alt={`Imagem de ${photo.title}`}
-                />
-                <Link href={`/photos/${photo.id}`} className={styles.details}>
-                  Ver Detalhes
-                </Link>
-              </div>
-            ))}
-          </div>
-        )}
+        <GridContentContainer>
+          {photos.length === 0 ? (
+            <p>Carregando...</p>
+          ) : (
+            <>
+              {photos.map((photo) => (
+                <div key={photo.id} className={styles.photo}>
+                  <h2 className={styles.photo_title}>{photo.title}</h2>
+                  <Image
+                    width={150}
+                    height={150}
+                    src={photo.thumbnailUrl}
+                    alt={`Imagem de ${photo.title}`}
+                    className={styles.photo_small_img}
+                  />
+                  <Link
+                    href={`/photos/${photo.id}`}
+                    className={styles.photo_link}
+                  >
+                    <Button>Ver Detalhes</Button>
+                  </Link>
+                </div>
+              ))}
+            </>
+          )}
+        </GridContentContainer>
 
         <div className={styles.pagination}>
           <button onClick={handlePreviousPage} disabled={page === 1}>
