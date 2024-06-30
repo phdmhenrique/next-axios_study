@@ -17,6 +17,7 @@ import GridContentContainer from "@/components/GridContentContainer";
 import TitlePage from "@/components/TitlePage";
 import { useEffect, useState } from "react";
 import Button from "@/components/Button";
+import ShowNumContents from "@/components/ShowNumContents";
 
 interface PhotosPageProps {
   photos: PhotosProps[];
@@ -48,10 +49,13 @@ export const Photos = ({ photos }: PhotosPageProps) => {
 
       <MainContentContainer>
         <TitlePage>Fotos</TitlePage>
-        <p className={styles.quantity}>
-          Mostrando <span>{visiblePhotos.length}</span> de um total de{" "}
-          <span>{photos.length}</span> Fotos
-        </p>
+
+        <ShowNumContents
+          visibleCount={visiblePhotos.length}
+          totalCount={photos.length}
+          componentName="Fotos"
+        />
+
         <GridContentContainer>
           {visiblePhotos.length === 0 ? (
             <p>Carregando...</p>
