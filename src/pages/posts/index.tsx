@@ -16,13 +16,13 @@ import GridContentContainer from "@/components/GridContentContainer";
 // Styles
 import styles from "./Posts.module.css";
 import Button from "@/components/Button";
+import ShowNumContents from "@/components/ShowNumContents";
 
 interface PostsPageProps {
   posts: PostsProps[];
 }
 
 export default function Posts({ posts }: PostsPageProps) {
-  // Carregar mais posts com botão
   const [visiblePosts, setVisiblePosts] = useState<PostsProps[]>([]);
   const [postsToShow, setPostsToShow] = useState<number>(30);
   const [loadingMore, setLoadingMore] = useState<boolean>(false);
@@ -48,6 +48,11 @@ export default function Posts({ posts }: PostsPageProps) {
       </Head>
       <MainContentContainer>
         <TitlePage>Posts</TitlePage>
+        <ShowNumContents
+          visibleCount={visiblePosts.length}
+          totalCount={posts.length}
+          componentName="Posts"
+        />
         <GridContentContainer>
           {visiblePosts.length === 0 ? (
             <p>Carregando...</p>

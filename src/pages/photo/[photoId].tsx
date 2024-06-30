@@ -20,6 +20,26 @@ interface PhotosPageProps {
   photo: PhotosProps;
 }
 
+const PhotoDetail = ({ photo }: PhotosPageProps) => {
+  return (
+    <>
+      <Head>
+        <title>Axios | {photo.title}</title>
+      </Head>
+      <MainContentContainer>
+        <TitlePage>{photo.title}</TitlePage>
+        <Image
+          width={600}
+          height={600}
+          src={photo.url}
+          alt={photo.title}
+          className={styles.photo_img}
+        />
+      </MainContentContainer>
+    </>
+  );
+};
+
 // getStaticPaths
 export const getStaticPaths: GetStaticPaths = async () => {
   try {
@@ -63,26 +83,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
       notFound: true,
     };
   }
-};
-
-const PhotoDetail = ({ photo }: PhotosPageProps) => {
-  return (
-    <>
-      <Head>
-        <title>Axios | {photo.title}</title>
-      </Head>
-      <MainContentContainer>
-        <TitlePage>{photo.title}</TitlePage>
-        <Image
-          width={600}
-          height={600}
-          src={photo.url}
-          alt={photo.title}
-          className={styles.photo_img}
-        />
-      </MainContentContainer>
-    </>
-  );
 };
 
 export default PhotoDetail;

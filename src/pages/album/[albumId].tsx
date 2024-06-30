@@ -16,6 +16,7 @@ import TitlePage from "@/components/TitlePage";
 import GridContentContainer from "@/components/GridContentContainer";
 import RetryImage from "@/components/RetryImage";
 import Button from "@/components/Button";
+import ShowNumContents from "@/components/ShowNumContents";
 
 interface AlbumProps {
   album: AlbumsProps;
@@ -49,6 +50,12 @@ const Album = ({ album, photos }: AlbumProps) => {
       </Head>
       <MainContentContainer>
         <TitlePage>{album.title}</TitlePage>
+        <ShowNumContents
+          visibleCount={visibleAlbums.length}
+          totalCount={photos.length}
+          componentName={`Àlbums dentro de ${album.title}`}
+        />
+
         <GridContentContainer>
           {visibleAlbums.map((photo) => (
             <div key={photo.id} className={styles.photoCard}>

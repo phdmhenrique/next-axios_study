@@ -13,13 +13,32 @@ import GridContentContainer from "@/components/GridContentContainer";
 
 // Utils
 import api from "@/api/axios";
-import { AlbumsProps } from "@/types/albums";
+import { AlbumsProps } from "@/types/apiProps";
+import ShowNumContents from "@/components/ShowNumContents";
+import { useEffect, useState } from "react";
+import Button from "@/components/Button";
 
 interface AlbumsPageProps {
   albums: AlbumsProps[];
 }
 
 const Albums = ({ albums }: AlbumsPageProps) => {
+  const [visibleAlbums, setVisibleAlbums] = useState<AlbumsProps[]>([]);
+  const [albumsToShow, setalbumsToShow] = useState<number>(30);
+  const [loadingMore, setLoadingMore] = useState<boolean>(false);
+
+  useEffect(() => {
+    setVisibleAlbums(albums.slice(0, albumsToShow));
+  }, [albums, albumsToShow]);
+
+  const loadMoreAlbums = () => {
+    setLoadingMore(true);
+    setTimeout(() => {
+      setalbumsToShow((prev) => prev + 30);
+      setLoadingMore(false);
+    }, 500);
+  };
+
   return (
     <>
       <Head>
@@ -27,8 +46,13 @@ const Albums = ({ albums }: AlbumsPageProps) => {
       </Head>
       <MainContentContainer>
         <Title>Álbums</Title>
+        <ShowNumContents
+          visibleCount={visibleAlbums.length}
+          totalCount={albums.length}
+          componentName="Álbums"
+        />
         <GridContentContainer>
-          {albums.map((album) => (
+          {visibleAlbums.map((album) => (
             <Link
               href={`/album/${album.id}`}
               key={album.id}
@@ -39,6 +63,12 @@ const Albums = ({ albums }: AlbumsPageProps) => {
             </Link>
           ))}
         </GridContentContainer>
+
+        {albumsToShow < albums.length && (
+          <Button onClick={loadMoreAlbums} disabled={loadingMore}>
+            {loadingMore ? "Carregando" : "Ver Mais"}
+          </Button>
+        )}
       </MainContentContainer>
     </>
   );
@@ -47,7 +77,7 @@ const Albums = ({ albums }: AlbumsPageProps) => {
 export const getStaticProps: GetStaticProps = async () => {
   try {
     const response = await api.get<AlbumsProps[]>("/albums");
-    const albums = response.data.slice(0, 30); // Limita a 15 elementos para exemplo
+    const albums = response.data; // Limita a 15 elementos para exemplo
 
     return {
       props: {
