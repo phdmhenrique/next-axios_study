@@ -27,15 +27,13 @@
 }
 
 .album p {
-  width: 2rem;
-  height: 2rem;
+  width: 3rem;
+  height: 3rem;
   border-radius: 50%;
   background-color: var(--primary);
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
-  top: -15px;
   font-weight: bold;
   font-size: 15px;
 }

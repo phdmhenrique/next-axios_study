@@ -1,9 +1,7 @@
-// pages/album/[albumId].tsx
-
+// Imports
 import { GetStaticPaths, GetStaticProps } from "next";
 import Head from "next/head";
-import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 
 // Styles
 import styles from "../albums/Albums.module.css";
@@ -24,11 +22,11 @@ interface AlbumProps {
 }
 
 const Album = ({ album, photos }: AlbumProps) => {
-  const [visiblePhotos, setVisiblePhotos] = React.useState<PhotosProps[]>(
+  const [visiblePhotos, setVisiblePhotos] = useState<PhotosProps[]>(
     photos.slice(0, 9)
   );
-  const [photosToShow, setPhotosToShow] = React.useState<number>(9);
-  const [loadingMore, setLoadingMore] = React.useState<boolean>(false);
+  const [photosToShow, setPhotosToShow] = useState<number>(9);
+  const [loadingMore, setLoadingMore] = useState<boolean>(false);
 
   const loadMorePhotos = () => {
     setLoadingMore(true);
@@ -105,6 +103,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const { albumId } = context.params!;
+
   try {
     const albumResponse = await api.get<AlbumsProps>(`/albums/${albumId}`);
     const photosResponse = await api.get<PhotosProps[]>(`/photos`, {

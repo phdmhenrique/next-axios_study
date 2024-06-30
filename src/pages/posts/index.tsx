@@ -1,31 +1,63 @@
-import Head from "next/head";
-import styles from "./Posts.module.css";
-import api from "@/api/axios";
+// Imports
 import { useEffect, useState } from "react";
-import { PostsProps } from "@/types/posts";
+import Head from "next/head";
 import Link from "next/link";
+import { GetStaticProps } from "next";
+
+// Utils
+import api from "@/api/axios";
+import { PostsProps } from "@/types/apiProps";
+
+// Components
 import MainContentContainer from "@/components/MainContentContainer";
 import TitlePage from "@/components/TitlePage";
 import GridContentContainer from "@/components/GridContentContainer";
-import Button from "@/components/Button";
 
-export default function Posts() {
-  const [posts, setPosts] = useState<PostsProps[]>([]);
+// Styles
+import styles from "./Posts.module.css";
 
-  const getPosts = async () => {
-    try {
-      const response = await api.get<PostsProps[]>("/posts?_limit=24");
+interface PostsPageProps {
+  posts: PostsProps[];
+}
 
-      const data = response.data;
-      setPosts(data);
-    } catch (error) {
-      console.error("deu merda", error);
-    }
-  };
+export const getStaticProps: GetStaticProps = async () => {
+  try {
+    const response = await api.get<PostsPageProps[]>("/posts");
+    const posts = response.data;
+
+    return {
+      props: {
+        posts,
+      },
+    };
+  } catch (error) {
+    console.error("Não foi possível buscar os posts", error);
+
+    return {
+      props: {
+        posts: [],
+      },
+    };
+  }
+};
+
+export default function Posts({ posts }: PostsPageProps) {
+  // Carregar mais posts com botão
+  const [visiblePosts, setVisiblePosts] = useState<PostsProps[]>([]);
+  const [postsToShow, setPostsToShow] = useState<number>(30);
+  const [loadingMore, setLoadingMore] = useState<boolean>(false);
 
   useEffect(() => {
-    getPosts();
-  }, []);
+    setVisiblePosts(posts.slice(0, postsToShow));
+  }, [posts, postsToShow]);
+
+  const loadMorePosts = () => {
+    setLoadingMore(true);
+    setTimeout(() => {
+      setPostsToShow((prev) => prev + 30);
+      setLoadingMore(false);
+    }, 500);
+  };
 
   return (
     <>
@@ -37,22 +69,33 @@ export default function Posts() {
       <MainContentContainer>
         <TitlePage>Posts</TitlePage>
         <GridContentContainer>
-          {posts.length === 0 ? (
+          {visiblePosts.length === 0 ? (
             <p>Carregando...</p>
           ) : (
-            posts.map((post) => (
-              <div key={post.id} className={styles.post_container}>
+            visiblePosts.map((post) => (
+              <Link
+                href={`/post/${post.id}`}
+                key={post.id}
+                className={styles.post_container}
+              >
                 <div className={styles.post_title}>
                   <h2>{post.title}</h2>
                   <p>{post.body}</p>
                 </div>
-                <Link href={`/posts/${post.id}`} className={styles.post_link}>
-                  <Button>Ver Detalhes</Button>
-                </Link>
-              </div>
+              </Link>
             ))
           )}
         </GridContentContainer>
+
+        {postsToShow < posts.length && (
+          <button
+            onClick={loadMorePosts}
+            disabled={loadingMore}
+            className={styles.loadMoreButton}
+          >
+            {loadingMore ? "Carregando" : "Ver Mais"}
+          </button>
+        )}
       </MainContentContainer>
     </>
   );

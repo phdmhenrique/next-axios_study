@@ -15,41 +15,34 @@ import styles from "./Photos.module.css";
 import MainContentContainer from "@/components/MainContentContainer";
 import GridContentContainer from "@/components/GridContentContainer";
 import TitlePage from "@/components/TitlePage";
-import Button from "@/components/Button";
+import { GetStaticProps } from "next";
 
-const Photos = () => {
-  const [photos, setPhotos] = useState<PhotosProps[]>([]);
-  const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
+interface PhotosPageProps {
+  photos: PhotosProps[];
+}
 
-  const getPhotos = async (pageNumber: number) => {
-    setLoading(true);
-    try {
-      const response = await api.get<PhotosProps[]>(
-        `/photos?_page=${pageNumber}&_limit=20`
-      );
-      setPhotos(response.data);
-    } catch (error) {
-      console.error("Erro ao carregar as fotos", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+export const getStaticProps: GetStaticProps = async () => {
+  try {
+    const response = await api.get<PhotosProps[]>("/photos");
+    const photos = response.data.slice(0, 30);
 
-  useEffect(() => {
-    getPhotos(page);
-  }, [page]);
+    return {
+      props: {
+        photos,
+      },
+    };
+  } catch (error) {
+    console.error("Não foi possível carregar as fotos", error);
 
-  // função de próximo
-  const handleNextPage = () => {
-    setPage((prevPage) => prevPage + 1);
-  };
+    return {
+      props: {
+        photos: [],
+      },
+    };
+  }
+};
 
-  // função de anterior
-  const handlePreviousPage = () => {
-    setPage((prevPage) => Math.max(prevPage - 1, 1));
-  };
-
+export const Photos = ({ photos }: PhotosPageProps) => {
   return (
     <>
       <Head>
@@ -65,7 +58,11 @@ const Photos = () => {
           ) : (
             <>
               {photos.map((photo) => (
-                <div key={photo.id} className={styles.photo}>
+                <Link
+                  href={`/photo/${photo.id}`}
+                  key={photo.id}
+                  className={styles.photo}
+                >
                   <h2 className={styles.photo_title}>{photo.title}</h2>
                   <Image
                     width={150}
@@ -74,24 +71,18 @@ const Photos = () => {
                     alt={`Imagem de ${photo.title}`}
                     className={styles.photo_small_img}
                   />
-                  <Link
-                    href={`/photos/${photo.id}`}
-                    className={styles.photo_link}
-                  >
-                    <Button>Ver Detalhes</Button>
-                  </Link>
-                </div>
+                </Link>
               ))}
             </>
           )}
         </GridContentContainer>
 
-        <div className={styles.pagination}>
+        {/* <div className={styles.pagination}>
           <button onClick={handlePreviousPage} disabled={page === 1}>
             Anterior
           </button>
           <button onClick={handleNextPage}>Próxima</button>
-        </div>
+        </div> */}
       </MainContentContainer>
     </>
   );
