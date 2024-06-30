@@ -15,31 +15,11 @@ import GridContentContainer from "@/components/GridContentContainer";
 
 // Styles
 import styles from "./Posts.module.css";
+import Button from "@/components/Button";
 
 interface PostsPageProps {
   posts: PostsProps[];
 }
-
-export const getStaticProps: GetStaticProps = async () => {
-  try {
-    const response = await api.get<PostsPageProps[]>("/posts");
-    const posts = response.data;
-
-    return {
-      props: {
-        posts,
-      },
-    };
-  } catch (error) {
-    console.error("Não foi possível buscar os posts", error);
-
-    return {
-      props: {
-        posts: [],
-      },
-    };
-  }
-};
 
 export default function Posts({ posts }: PostsPageProps) {
   // Carregar mais posts com botão
@@ -88,15 +68,32 @@ export default function Posts({ posts }: PostsPageProps) {
         </GridContentContainer>
 
         {postsToShow < posts.length && (
-          <button
-            onClick={loadMorePosts}
-            disabled={loadingMore}
-            className={styles.loadMoreButton}
-          >
+          <Button onClick={loadMorePosts} disabled={loadingMore}>
             {loadingMore ? "Carregando" : "Ver Mais"}
-          </button>
+          </Button>
         )}
       </MainContentContainer>
     </>
   );
 }
+
+export const getStaticProps: GetStaticProps = async () => {
+  try {
+    const response = await api.get<PostsPageProps[]>("/posts");
+    const posts = response.data;
+
+    return {
+      props: {
+        posts,
+      },
+    };
+  } catch (error) {
+    console.error("Não foi possível buscar os posts", error);
+
+    return {
+      props: {
+        posts: [],
+      },
+    };
+  }
+};

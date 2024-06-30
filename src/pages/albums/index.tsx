@@ -2,7 +2,6 @@
 import Head from "next/head";
 import Link from "next/link";
 import { GetStaticProps } from "next";
-import { useState } from "react";
 
 // Styles
 import styles from "./Albums.module.css";
@@ -17,33 +16,10 @@ import api from "@/api/axios";
 import { AlbumsProps } from "@/types/albums";
 
 interface AlbumsPageProps {
-  albumsData: AlbumsProps[];
+  albums: AlbumsProps[];
 }
 
-export const getStaticProps: GetStaticProps = async () => {
-  try {
-    const response = await api.get<AlbumsProps[]>("/albums");
-    const albumsData = response.data.slice(0, 30); // Limita a 15 elementos para exemplo
-
-    return {
-      props: {
-        albumsData,
-      },
-      revalidate: 60 * 5,
-    };
-  } catch (error) {
-    console.error("Erro ao buscar dados:", error);
-    return {
-      props: {
-        albumsData: [],
-      },
-    };
-  }
-};
-
-const Albums = ({ albumsData }: AlbumsPageProps) => {
-  const [albums, setAlbums] = useState<AlbumsProps[]>(albumsData);
-
+const Albums = ({ albums }: AlbumsPageProps) => {
   return (
     <>
       <Head>
@@ -66,6 +42,27 @@ const Albums = ({ albumsData }: AlbumsPageProps) => {
       </MainContentContainer>
     </>
   );
+};
+
+export const getStaticProps: GetStaticProps = async () => {
+  try {
+    const response = await api.get<AlbumsProps[]>("/albums");
+    const albums = response.data.slice(0, 30); // Limita a 15 elementos para exemplo
+
+    return {
+      props: {
+        albums,
+      },
+      revalidate: 60 * 5,
+    };
+  } catch (error) {
+    console.error("Erro ao buscar dados:", error);
+    return {
+      props: {
+        albums: [],
+      },
+    };
+  }
 };
 
 export default Albums;

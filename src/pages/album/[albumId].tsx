@@ -15,6 +15,7 @@ import MainContentContainer from "@/components/MainContentContainer";
 import TitlePage from "@/components/TitlePage";
 import GridContentContainer from "@/components/GridContentContainer";
 import RetryImage from "@/components/RetryImage";
+import Button from "@/components/Button";
 
 interface AlbumProps {
   album: AlbumsProps;
@@ -22,23 +23,19 @@ interface AlbumProps {
 }
 
 const Album = ({ album, photos }: AlbumProps) => {
-  const [visiblePhotos, setVisiblePhotos] = useState<PhotosProps[]>(
+  const [visibleAlbums, setVisibleAlbums] = useState<PhotosProps[]>(
     photos.slice(0, 9)
   );
-  const [photosToShow, setPhotosToShow] = useState<number>(9);
+  const [albumsToShow, setAlbumsToShow] = useState<number>(9);
   const [loadingMore, setLoadingMore] = useState<boolean>(false);
 
   const loadMorePhotos = () => {
     setLoadingMore(true);
     setTimeout(() => {
-      setPhotosToShow((prev) => prev + 9);
-      setVisiblePhotos(photos.slice(0, photosToShow + 9));
+      setAlbumsToShow((prev) => prev + 9);
+      setVisibleAlbums(photos.slice(0, albumsToShow + 9));
       setLoadingMore(false);
     }, 500);
-  };
-
-  const handleLoadMoreClick = () => {
-    loadMorePhotos();
   };
 
   if (!album) {
@@ -53,7 +50,7 @@ const Album = ({ album, photos }: AlbumProps) => {
       <MainContentContainer>
         <TitlePage>{album.title}</TitlePage>
         <GridContentContainer>
-          {visiblePhotos.map((photo) => (
+          {visibleAlbums.map((photo) => (
             <div key={photo.id} className={styles.photoCard}>
               <RetryImage
                 src={photo.thumbnailUrl}
@@ -65,14 +62,10 @@ const Album = ({ album, photos }: AlbumProps) => {
             </div>
           ))}
         </GridContentContainer>
-        {photosToShow < photos.length && (
-          <button
-            onClick={handleLoadMoreClick}
-            disabled={loadingMore}
-            className={styles.loadMoreButton}
-          >
+        {albumsToShow < photos.length && (
+          <Button onClick={loadMorePhotos} disabled={loadingMore}>
             {loadingMore ? "Carregando" : "Ver Mais"}
-          </button>
+          </Button>
         )}
       </MainContentContainer>
     </>

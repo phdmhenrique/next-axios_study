@@ -43,18 +43,3 @@
   width: 100%;
   margin-top: 2rem;
 }
-
-.loadMoreButton {
-  padding: 1rem 2rem;
-  background-color: var(--primary);
-  color: var(--white);
-  border-radius: 0.5rem;
-  margin-bottom: 2rem;
-  cursor: pointer;
-  border: .2rem solid transparent;
-}
-
-.loadMoreButton:hover {
-  background-color: var(--secondary);
-  border-color: var(--primary);
-}

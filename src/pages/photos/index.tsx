@@ -3,10 +3,10 @@ import api from "@/api/axios";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { GetStaticProps } from "next";
 
 // Props
-import { PhotosProps } from "@/types/photos";
+import { PhotosProps } from "@/types/apiProps";
 
 // Styles
 import styles from "./Photos.module.css";
@@ -15,34 +15,30 @@ import styles from "./Photos.module.css";
 import MainContentContainer from "@/components/MainContentContainer";
 import GridContentContainer from "@/components/GridContentContainer";
 import TitlePage from "@/components/TitlePage";
-import { GetStaticProps } from "next";
+import { useEffect, useState } from "react";
+import Button from "@/components/Button";
 
 interface PhotosPageProps {
   photos: PhotosProps[];
 }
 
-export const getStaticProps: GetStaticProps = async () => {
-  try {
-    const response = await api.get<PhotosProps[]>("/photos");
-    const photos = response.data.slice(0, 30);
-
-    return {
-      props: {
-        photos,
-      },
-    };
-  } catch (error) {
-    console.error("Não foi possível carregar as fotos", error);
-
-    return {
-      props: {
-        photos: [],
-      },
-    };
-  }
-};
-
 export const Photos = ({ photos }: PhotosPageProps) => {
+  const [visiblePhotos, setVisiblePhotos] = useState<PhotosProps[]>([]);
+  const [photosToShow, setPhotosToShow] = useState<number>(30);
+  const [loadingMore, setLoadingMore] = useState<boolean>(false);
+
+  useEffect(() => {
+    setVisiblePhotos(photos.slice(0, photosToShow));
+  }, [photos, photosToShow]);
+
+  const loadMorePhotos = () => {
+    setLoadingMore(true);
+    setTimeout(() => {
+      setPhotosToShow((prev) => prev + 30);
+      setLoadingMore(false);
+    }, 500);
+  };
+
   return (
     <>
       <Head>
@@ -52,12 +48,16 @@ export const Photos = ({ photos }: PhotosPageProps) => {
 
       <MainContentContainer>
         <TitlePage>Fotos</TitlePage>
+        <p className={styles.quantity}>
+          Mostrando <span>{visiblePhotos.length}</span> de um total de{" "}
+          <span>{photos.length}</span> Fotos
+        </p>
         <GridContentContainer>
-          {photos.length === 0 ? (
+          {visiblePhotos.length === 0 ? (
             <p>Carregando...</p>
           ) : (
             <>
-              {photos.map((photo) => (
+              {visiblePhotos.map((photo) => (
                 <Link
                   href={`/photo/${photo.id}`}
                   key={photo.id}
@@ -77,15 +77,35 @@ export const Photos = ({ photos }: PhotosPageProps) => {
           )}
         </GridContentContainer>
 
-        {/* <div className={styles.pagination}>
-          <button onClick={handlePreviousPage} disabled={page === 1}>
-            Anterior
-          </button>
-          <button onClick={handleNextPage}>Próxima</button>
-        </div> */}
+        {photosToShow < photos.length && (
+          <Button onClick={loadMorePhotos} disabled={loadingMore}>
+            {loadingMore ? "Carregando" : "Ver mais"}
+          </Button>
+        )}
       </MainContentContainer>
     </>
   );
+};
+
+export const getStaticProps: GetStaticProps = async () => {
+  try {
+    const response = await api.get<PhotosProps[]>("/photos");
+    const photos = response.data;
+
+    return {
+      props: {
+        photos,
+      },
+    };
+  } catch (error) {
+    console.error("Não foi possível carregar as fotos", error);
+
+    return {
+      props: {
+        photos: [],
+      },
+    };
+  }
 };
 
 export default Photos;
