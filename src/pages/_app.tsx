@@ -1,18 +1,26 @@
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar/Navbar";
+// Imports
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
-import { Inter } from "next/font/google";
 
-// If loading a variable font, you don't need to specify the font weight
+// Utils
+import { AuthProvider } from "@/context/AuthContext";
+
+// Components
+import Footer from "@/components/Footer";
+import Navbar from "@/components/Navbar/Navbar";
+
+// Fonts
+import { Inter } from "next/font/google";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <main className={inter.className}>
-      <Navbar />
-      <Component {...pageProps} />
-      <Footer />
-    </main>
+    <AuthProvider>
+      <main className={inter.className}>
+        <Navbar />
+        <Component {...pageProps} />
+        <Footer />
+      </main>
+    </AuthProvider>
   );
 }

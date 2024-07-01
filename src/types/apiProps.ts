@@ -26,3 +26,17 @@ export interface CommentsProps {
   email: string;
   body: string;
 }
+
+export interface TodosProps {
+  userId?: number;
+  id: number;
+  title: string;
+  completed: boolean;
+}
+
+export interface UsersProps {
+  id: number;
+  name: string;
+  email: string;
+  username: string;
+}
