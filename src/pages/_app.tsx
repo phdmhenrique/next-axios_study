@@ -1,25 +1,26 @@
-// Imports
+// src/pages/_app.tsx
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
-
-// Utils
 import { AuthProvider } from "@/context/AuthContext";
-
-// Components
+import withAuth from "@/components/withAuth";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar/Navbar";
-
-// Fonts
 import { Inter } from "next/font/google";
+
 const inter = Inter({ subsets: ["latin"] });
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({ Component, pageProps, router }: AppProps) {
+  const isLoginPage = router.pathname === "/login";
+  const ProtectedComponent = isLoginPage ? Component : withAuth(Component);
+  const showComponents =
+    router.pathname !== "/login" && router.pathname !== "/register";
+
   return (
     <AuthProvider>
       <main className={inter.className}>
-        <Navbar />
-        <Component {...pageProps} />
-        <Footer />
+        {showComponents && <Navbar />}
+        <ProtectedComponent {...pageProps} />
+        {showComponents && <Footer />}
       </main>
     </AuthProvider>
   );

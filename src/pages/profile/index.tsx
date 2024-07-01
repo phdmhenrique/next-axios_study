@@ -1,26 +1,49 @@
+// src/pages/profile.tsx
+import withAuth from "@/components/withAuth";
 import { useAuth } from "@/context/AuthContext";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
+import Head from "next/head";
 
-export default function Profile() {
-  const { user, logout } = useAuth();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!user) {
-      router.push("/login");
-    }
-  }, [user, router]);
-
-  if (!user) {
-    return <p>Você precisa fazer login</p>;
-  }
+const Profile = () => {
+  const { user } = useAuth();
 
   return (
-    <div>
-      <h1>Perfil</h1>
-      <p>Bem-vindo, {user.username}!</p>
-      <button onClick={logout}>Logout</button>
-    </div>
+    <>
+      <Head>
+        <title>Profile</title>
+      </Head>
+      <div>
+        <h1>Profile Page</h1>
+        {user && (
+          <>
+            <p>
+              <strong>Name:</strong> {user.name}
+            </p>
+            <p>
+              <strong>Username:</strong> {user.username}
+            </p>
+            <p>
+              <strong>Email:</strong> {user.email}
+            </p>
+            <p>
+              <strong>Phone:</strong> {user.phone}
+            </p>
+            <p>
+              <strong>Website:</strong> {user.website}
+            </p>
+            {user.address && (
+              <p>
+                <strong>Address:</strong>{" "}
+                {`${user.address.street}, ${user.address.suite}, ${user.address.city}, ${user.address.zipcode}`}
+              </p>
+            )}
+            <p>
+              <strong>Company:</strong> {user.company.name}
+            </p>
+          </>
+        )}
+      </div>
+    </>
   );
-}
+};
+
+export default withAuth(Profile);

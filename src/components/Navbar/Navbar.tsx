@@ -32,6 +32,11 @@ const Navbar = () => {
               Novo Post
             </Link>
           </li>
+          <li>
+            <Link href="/profile" className="btn">
+              Meu Perfil
+            </Link>
+          </li>
         </ul>
       </div>
     </nav>
