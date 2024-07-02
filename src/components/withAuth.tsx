@@ -1,24 +1,28 @@
 // src/components/withAuth.tsx
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import LoadingScreen from "./Loading";
 
 const withAuth = (WrappedComponent: React.ComponentType) => {
   return (props: any) => {
     const { user, setUser } = useAuth();
     const router = useRouter();
+    const [isLoading, setIsLoading] = useState(true);
     const isAuthPage =
       router.pathname === "/login" || router.pathname === "/register";
 
     useEffect(() => {
       if (!user && !isAuthPage) {
+        setIsLoading(true);
         router.push("/login");
+      } else {
+        setIsLoading(false);
       }
-      // Certifique-se de incluir todas as dependências necessárias aqui
-    }, [user, isAuthPage, router]); // Dependências corretas para evitar loops
+    }, [user, isAuthPage, router]);
 
-    if (!user && !isAuthPage) {
-      return <p>Redirecionando...</p>;
+    if (isLoading) {
+      return <LoadingScreen>Redirecionando...</LoadingScreen>;
     }
 
     return <WrappedComponent {...props} />;

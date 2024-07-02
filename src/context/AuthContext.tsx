@@ -1,18 +1,7 @@
 // src/context/AuthContext.tsx
-import { createContext, useContext, useState, useEffect } from "react";
-
-interface Address {
-  street: string;
-  suite: string;
-  city: string;
-  zipcode: string;
-}
-
-interface Company {
-  name: string;
-  catchPhrase: string;
-  bs: string;
-}
+import React, { createContext, useContext, useState, ReactNode } from "react";
+import { useRouter } from "next/router";
+import api from "@/api/axios";
 
 interface User {
   id: number;
@@ -21,44 +10,61 @@ interface User {
   email: string;
   phone: string;
   website: string;
-  address: Address;
-  company: Company;
+  address: {
+    street: string;
+    suite: string;
+    city: string;
+    zipcode: string;
+  };
+  company: {
+    name: string;
+  };
 }
 
 interface AuthContextProps {
   user: User | null;
-  setUser: (user: User | null) => void;
-  logout: () => void;
+  loading: boolean;
+  setUser: (user: User) => void;
+  login: (username: string) => Promise<void>;
+  logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-  }, []); // Executa apenas uma vez, quando o componente é montado
-
-  const setUserAndStore = (newUser: User | null) => {
-    setUser(newUser);
-    if (newUser) {
-      localStorage.setItem("user", JSON.stringify(newUser));
-    } else {
-      localStorage.removeItem("user");
+  const login = async (username: string) => {
+    setLoading(true);
+    try {
+      const response = await api.get(`users?username=${username}`);
+      const user = response.data[0];
+      if (user) {
+        setUser(user);
+        router.push("/");
+      } else {
+        throw new Error("Usuário inválido, tente: 'Bret'");
+      }
+    } catch (error) {
+      console.error("Failed to fetch user data", error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem("user");
+  const logout = async () => {
+    setLoading(true);
+    setTimeout(() => {
+      setUser(null);
+      router.push("/login");
+      setLoading(false);
+    }, 2000); // Simula um logout com delay de 2 segundos
   };
 
   return (
-    <AuthContext.Provider value={{ user, setUser: setUserAndStore, logout }}>
+    <AuthContext.Provider value={{ user, loading, setUser, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

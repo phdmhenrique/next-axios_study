@@ -15,6 +15,7 @@ import { PhotosProps } from "@/types/apiProps";
 import MainContentContainer from "@/components/MainContentContainer";
 import TitlePage from "@/components/TitlePage";
 import { GetStaticPaths, GetStaticProps } from "next";
+import LoadingScreen from "@/components/Loading";
 
 interface PhotosPageProps {
   photo: PhotosProps;

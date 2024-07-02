@@ -20,7 +20,7 @@ export default function App({ Component, pageProps, router }: AppProps) {
       <main className={inter.className}>
         {showComponents && <Navbar />}
         <ProtectedComponent {...pageProps} />
-        {showComponents && <Footer />}
+        <Footer />
       </main>
     </AuthProvider>
   );

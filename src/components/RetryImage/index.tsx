@@ -10,22 +10,20 @@ interface RetryImageProps {
 
 const RetryImage = ({ src, alt, width, height }: RetryImageProps) => {
   const [retryCount, setRetryCount] = useState(0);
+  const [srcToShow, setSrcToShow] = useState(src);
 
   const handleImageError = () => {
-    // Incrementa o contador de tentativas
-    setRetryCount(retryCount + 1);
-
-    // Tentativa de carregar a imagem novamente
-    // if (retryCount < 3) {
-    //   console.log(`Tentando carregar ${src} novamente...`);
-    // } else {
-    //   console.error(`Falha ao carregar ${src} após várias tentativas.`);
-    // }
+    if (retryCount < 3) {
+      setRetryCount(retryCount + 1);
+      setSrcToShow(`${src}?retry=${retryCount + 1}`);
+    } else {
+      setSrcToShow("/images/ecat-fallback.png");
+    }
   };
 
   return (
     <Image
-      src={src}
+      src={srcToShow}
       alt={alt}
       width={width}
       height={height}
